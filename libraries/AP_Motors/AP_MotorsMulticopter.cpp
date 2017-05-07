@@ -190,7 +190,7 @@ AP_MotorsMulticopter::AP_MotorsMulticopter(uint16_t loop_rate, uint16_t speed_hz
     _batt_voltage_filt.reset(1.0f);
 
     // default throttle range
-    _throttle_radio_min = 1100;
+    _throttle_radio_min = 1000;
     _throttle_radio_max = 1900;
 };
 

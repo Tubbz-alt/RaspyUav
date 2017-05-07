@@ -4,7 +4,7 @@
 
 #include "AP_HAL_Linux.h"
 
-#define PCA9685_PRIMARY_ADDRESS             0x40 // All address pins low, PCA9685 default
+#define PCA9685_PRIMARY_ADDRESS             0x46 // All address pins low, PCA9685 default
 #define PCA9685_SECONDARY_ADDRESS           0x41
 #define PCA9685_TERTIARY_ADDRESS            0x42
 #define PCA9685_QUATENARY_ADDRESS           0x55

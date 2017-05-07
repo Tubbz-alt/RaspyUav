@@ -53,7 +53,7 @@ const AP_Param::GroupInfo AP_GPS::var_info[] = {
     // @Values: 0:None,1:AUTO,2:uBlox,3:MTK,4:MTK19,5:NMEA,6:SiRF,7:HIL,8:SwiftNav,9:PX4-UAVCAN,10:SBF,11:GSOF,12:QURT,13:ERB,14:MAV,15:NOVA
     // @RebootRequired: True
     // @User: Advanced
-    AP_GROUPINFO("TYPE2",   1, AP_GPS, _type[1], 0),
+    AP_GROUPINFO("TYPE2",   1, AP_GPS, _type[1], 1),
 
     // @Param: NAVFILTER
     // @DisplayName: Navigation filter setting
@@ -120,14 +120,14 @@ const AP_Param::GroupInfo AP_GPS::var_info[] = {
     // @Values: 0:Leave as currently configured, 1:GPS-NoSBAS, 3:GPS+SBAS, 4:Galileo-NoSBAS, 6:Galileo+SBAS, 8:Beidou, 51:GPS+IMES+QZSS+SBAS (Japan Only), 64:GLONASS, 66:GLONASS+SBAS, 67:GPS+GLONASS+SBAS
     // @Bitmask: 0:GPS,1:SBAS,2:Galileo,3:Beidou,4:IMES,5:QZSS,6:GLOSNASS
     // @User: Advanced
-    AP_GROUPINFO("GNSS_MODE", 10, AP_GPS, _gnss_mode[0], 0),
+    AP_GROUPINFO("GNSS_MODE", 10, AP_GPS, _gnss_mode[0], 67),
 
     // @Param: SAVE_CFG
     // @DisplayName: Save GPS configuration
     // @Description: Determines whether the configuration for this GPS should be written to non-volatile memory on the GPS. Currently working for UBlox 6 series and above.
     // @Values: 0:Do not save config,1:Save config,2:Save only when needed
     // @User: Advanced
-    AP_GROUPINFO("SAVE_CFG", 11, AP_GPS, _save_config, 0),
+    AP_GROUPINFO("SAVE_CFG", 11, AP_GPS, _save_config, 1),
 
     // @Param: GNSS_MODE2
     // @DisplayName: GNSS system configuration

@@ -80,7 +80,10 @@ public:
 
     /// voltage - returns battery voltage in millivolts
     float voltage(uint8_t instance) const;
-    float voltage() const { return voltage(AP_BATT_PRIMARY_INSTANCE); }
+    float voltage() const 
+	{ 
+		return 11.6f; //voltage(AP_BATT_PRIMARY_INSTANCE); 
+	}
 
     /// current_amps - returns the instantaneous current draw in amperes
     float current_amps(uint8_t instance) const;

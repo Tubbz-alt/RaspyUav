@@ -61,8 +61,8 @@ RCOutput_PCA9685::RCOutput_PCA9685(AP_HAL::OwnPtr<AP_HAL::I2CDevice> dev,
                                    uint8_t channel_offset,
                                    int16_t oe_pin_number) :
     _dev(std::move(dev)),
+	_frequency(50),
     _enable_pin(nullptr),
-    _frequency(50),
     _pulses_buffer(new uint16_t[PWM_CHAN_COUNT - channel_offset]),
     _external_clock(external_clock),
     _channel_offset(channel_offset),
@@ -84,7 +84,7 @@ void RCOutput_PCA9685::init()
     reset_all_channels();
 
     /* Set the initial frequency */
-    set_freq(0, 50);
+    set_freq(0, _frequency);
 
     /* Enable PCA9685 PWM */
     if (_oe_pin_number != -1) {
@@ -134,10 +134,10 @@ void RCOutput_PCA9685::set_freq(uint32_t chmask, uint16_t freq_hz)
      * than round() so the resulting frequency is never greater than @freq_hz
      */
     uint8_t prescale = ceil(_osc_clock / (4096 * freq_hz)) - 1;
-    _frequency = _osc_clock / (4096 * (prescale + 1));
+    //_frequency = freq_hz; // _osc_clock / (4096 * (prescale + 1));
 
     /* Write prescale value to match frequency */
-    _dev->write_register(PCA9685_RA_PRE_SCALE, prescale);
+    _dev->write_register(PCA9685_RA_PRE_SCALE, 126u); // forzato il valore!!!!
 
     if (_external_clock) {
         /* Enable external clocking */
@@ -207,17 +207,17 @@ void RCOutput_PCA9685::push()
 
     for (unsigned ch = min_ch; ch < max_ch; ch++) {
         uint16_t period_us = _pulses_buffer[ch];
-        uint16_t length = 0;
+        uint16_t length = 0; // lunghezza della fase alta espressa da 0 a 4096
 
         if (period_us) {
-            length = round((period_us * 4096) / (1000000.f / _frequency)) - 1;
+            length = round(0.004096f * _frequency * period_us) - 1; // round((period_us * 4096) / (1000000.f / _frequency)) - 1;
         }
 
         uint8_t *d = &pwm_values.data[(ch - min_ch) * 4];
-        *d++ = 0;
-        *d++ = 0;
-        *d++ = length & 0xFF;
-        *d++ = length >> 8;
+        *d++ = 0; // on_l
+        *d++ = 0; // on_h
+        *d++ = length & 0xFF; // off_l
+        *d++ = length >> 8;   // off_h
     }
 
     if (!_dev->get_semaphore()->take_nonblocking()) {
@@ -226,7 +226,7 @@ void RCOutput_PCA9685::push()
 
     pwm_values.reg = PCA9685_RA_LED0_ON_L + 4 * (_channel_offset + min_ch);
     /* reg + all the channels we are going to write */
-    size_t payload_size = 1 + (max_ch - min_ch) * 4;
+    size_t payload_size = 1 + (max_ch - min_ch) * 4; // reg, on_l, on_h, off_l, off_h
 
     _dev->transfer((uint8_t *)&pwm_values, payload_size, nullptr, 0);
     _dev->get_semaphore()->give();

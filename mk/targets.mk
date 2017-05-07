@@ -57,6 +57,11 @@ navio2: TOOLCHAIN = RPI
 navio2: BUILDSYS_DEPRECATED = 1
 navio2: all
 
+raspyboard: HAL_BOARD = HAL_BOARD_LINUX
+raspyboard: TOOLCHAIN = RPI
+raspyboard: BUILDSYS_DEPRECATED = 1
+raspyboard: all
+
 raspilot: HAL_BOARD = HAL_BOARD_LINUX
 raspilot: TOOLCHAIN = RPI
 raspilot: BUILDSYS_DEPRECATED = 1

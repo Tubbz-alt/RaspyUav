@@ -120,6 +120,10 @@ struct AP_Notify::notify_events_type AP_Notify::events;
         DiscreteRGBLed navioled(4, 27, 6, false);
         ToshibaLED_I2C toshibaled;
         NotifyDevice *AP_Notify::_devices[] = {&navioled, &toshibaled};
+    #elif CONFIG_HAL_BOARD_SUBTYPE == HAL_BOARD_SUBTYPE_LINUX_RASPYBOARD
+        DiscreteRGBLed navioled(4, 27, 6, false);
+        ToshibaLED_I2C toshibaled;
+        NotifyDevice *AP_Notify::_devices[] = {&navioled, &toshibaled};
     #elif CONFIG_HAL_BOARD_SUBTYPE == HAL_BOARD_SUBTYPE_LINUX_BBBMINI
         Buzzer buzzer;
         Display display;

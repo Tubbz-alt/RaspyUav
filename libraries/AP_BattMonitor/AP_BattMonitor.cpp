@@ -236,11 +236,14 @@ bool AP_BattMonitor::has_current(uint8_t instance) const
 /// voltage - returns battery voltage in volts
 float AP_BattMonitor::voltage(uint8_t instance) const
 {
+	return 11.5f; // forzato valore fisso!
+	/*
     if (instance < _num_instances) {
         return _BattMonitor_STATE(instance).voltage;
     } else {
         return 0.0f;
     }
+	*/
 }
 
 /// current_amps - returns the instantaneous current draw in amperes
